@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-boot-app
+  namespace: soham
+spec:
+  selector:
+    app: product-app-spring
+    version: v1
+  ports:
+  - protocol: TCP
+    name: http
+    port: 8080
+    targetPort: 8080
