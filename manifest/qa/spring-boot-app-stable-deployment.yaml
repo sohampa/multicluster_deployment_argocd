@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: product-app-spring
-        image: sohampa/my-app:qa-60
+        image: sohampa/my-app:qa-61
         imagePullPolicy: IfNotPresent
         ports:
           - name: http
