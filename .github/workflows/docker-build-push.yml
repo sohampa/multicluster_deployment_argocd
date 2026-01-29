@@ -42,10 +42,8 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${ENV}-latest
 
       - name: Update GitOps Repo
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git clone https://x-access-token:${GH_TOKEN}@github.com/sohampa/multicluster_deployment_argocd.git
+          git clone https://${{ secrets.GITOPS_TOKEN }}@github.com/sohampa/multicluster_deployment_argocd.git
           cd multicluster_deployment_argocd/manifest/${ENV}
       
           sed -i "s|image:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${TAG}|g" spring-boot-app-stable-deployment.yaml
@@ -55,3 +53,4 @@ jobs:
           git add spring-boot-app-stable-deployment.yaml
           git commit -m "Update ${ENV} image to ${TAG}"
           git push
+
