@@ -43,8 +43,8 @@ jobs:
 
       - name: Update GitOps Repo
         run: |
-          git clone https://github.com/org/gitops-repo.git
-          cd gitops-repo/manifest/${ENV}
+          git clone https://github.com/sohampa/multicluster_deployment_argocd.git
+          cd multicluster_deployment_argocd/manifest/${ENV}
       
           sed -i "s|image:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${TAG}|g" spring-boot-app-stable-deployment.yaml
       
