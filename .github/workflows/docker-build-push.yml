@@ -40,3 +40,16 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${TAG}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${ENV}-latest
+
+      - name: Update GitOps Repo
+        run: |
+          git clone https://github.com/org/gitops-repo.git
+          cd gitops-repo/manifest/${ENV}
+      
+          sed -i "s|image:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${TAG}|g" spring-boot-app-stable-deployment.yaml
+      
+          git config user.email "ci@github.com"
+          git config user.name "github-actions"
+          git add spring-boot-app-stable-deployment.yaml
+          git commit -m "Update ${ENV} image to ${TAG}"
+          git push
