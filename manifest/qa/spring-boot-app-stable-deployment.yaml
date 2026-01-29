@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-app-spring
+  namespace: soham
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: product-app-spring
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: product-app-spring
+        version: v1
+    spec:
+      containers:
+      - name: product-app-spring
+        image: sohampa/my-app:4
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http
+            containerPort: 8080
+        env:
+          - name: SPRING_DATASOURCE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: product-app-config
+                key: SPRING_DATASOURCE_URL
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: product-app-secret
+                key: SPRING_DATASOURCE_USERNAME
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: product-app-secret
+                key: SPRING_DATASOURCE_PASSWORD

@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: product-backend-ingress
+  namespace: soham
+  # annotations:
+    # ingressClassName: nginx
+    # service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    # service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: product.dockeroncloud.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: spring-boot-app
+            port:
+              number: 8080
